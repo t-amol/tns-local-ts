@@ -17,6 +17,7 @@ export const MODULES: ModuleDef[] = [
     submodules: [
       { label: "Overview", to: "/admin" },
       { label: "Users", to: "/admin/users" },
+      { label: "Products", to: "/admin/products" },
       { label: "Roles", to: "/admin/roles" },
       { label: "Permissions", to: "/admin/permissions" },
       { label: "Audit Logs", to: "/admin/audit-logs" },

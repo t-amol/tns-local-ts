@@ -23,6 +23,8 @@ import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardProductsImport } from './routes/dashboard/products'
 import { Route as AdminUsersImport } from './routes/admin/users'
 import { Route as AdminRolesImport } from './routes/admin/roles'
+import { Route as AdminProductsPageImport } from './routes/admin/productsPage'
+import { Route as AdminProductsImport } from './routes/admin/products'
 
 // Create/Update Routes
 
@@ -98,6 +100,18 @@ const AdminRolesRoute = AdminRolesImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AdminProductsPageRoute = AdminProductsPageImport.update({
+  id: '/admin/productsPage',
+  path: '/admin/productsPage',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminProductsRoute = AdminProductsImport.update({
+  id: '/admin/products',
+  path: '/admin/products',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -121,6 +135,20 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/admin/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/productsPage': {
+      id: '/admin/productsPage'
+      path: '/admin/productsPage'
+      fullPath: '/admin/productsPage'
+      preLoaderRoute: typeof AdminProductsPageImport
       parentRoute: typeof rootRoute
     }
     '/admin/roles': {
@@ -211,6 +239,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
   '/dashboard/products': typeof DashboardProductsRoute
@@ -225,6 +255,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
   '/dashboard/products': typeof DashboardProductsRoute
@@ -241,6 +273,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
   '/dashboard/products': typeof DashboardProductsRoute
@@ -258,6 +292,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/admin/products'
+    | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
     | '/dashboard/products'
@@ -271,6 +307,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/admin/products'
+    | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
     | '/dashboard/products'
@@ -285,6 +323,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/admin/products'
+    | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
     | '/dashboard/products'
@@ -301,6 +341,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
+  AdminProductsRoute: typeof AdminProductsRoute
+  AdminProductsPageRoute: typeof AdminProductsPageRoute
   AdminRolesRoute: typeof AdminRolesRoute
   AdminUsersRoute: typeof AdminUsersRoute
   OrdersReturnsRoute: typeof OrdersReturnsRoute
@@ -313,6 +355,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   LoginRoute: LoginRoute,
+  AdminProductsRoute: AdminProductsRoute,
+  AdminProductsPageRoute: AdminProductsPageRoute,
   AdminRolesRoute: AdminRolesRoute,
   AdminUsersRoute: AdminUsersRoute,
   OrdersReturnsRoute: OrdersReturnsRoute,
@@ -334,6 +378,8 @@ export const routeTree = rootRoute
         "/",
         "/dashboard",
         "/login",
+        "/admin/products",
+        "/admin/productsPage",
         "/admin/roles",
         "/admin/users",
         "/orders/returns",
@@ -355,6 +401,12 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/admin/products": {
+      "filePath": "admin/products.tsx"
+    },
+    "/admin/productsPage": {
+      "filePath": "admin/productsPage.tsx"
     },
     "/admin/roles": {
       "filePath": "admin/roles.tsx"
