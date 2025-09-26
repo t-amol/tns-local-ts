@@ -21,10 +21,13 @@ import { Route as OrdersShipmentsImport } from './routes/orders/shipments'
 import { Route as OrdersReturnsImport } from './routes/orders/returns'
 import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardProductsImport } from './routes/dashboard/products'
+import { Route as BooksBooksImport } from './routes/books/books'
 import { Route as AdminUsersImport } from './routes/admin/users'
 import { Route as AdminRolesImport } from './routes/admin/roles'
 import { Route as AdminProductsPageImport } from './routes/admin/productsPage'
 import { Route as AdminProductsImport } from './routes/admin/products'
+import { Route as BooksBooksNewImport } from './routes/books/books.new'
+import { Route as BooksBooksBookIdEditImport } from './routes/books/books.$bookId.edit'
 
 // Create/Update Routes
 
@@ -88,6 +91,12 @@ const DashboardProductsRoute = DashboardProductsImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
+const BooksBooksRoute = BooksBooksImport.update({
+  id: '/books/books',
+  path: '/books/books',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AdminUsersRoute = AdminUsersImport.update({
   id: '/admin/users',
   path: '/admin/users',
@@ -110,6 +119,18 @@ const AdminProductsRoute = AdminProductsImport.update({
   id: '/admin/products',
   path: '/admin/products',
   getParentRoute: () => rootRoute,
+} as any)
+
+const BooksBooksNewRoute = BooksBooksNewImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => BooksBooksRoute,
+} as any)
+
+const BooksBooksBookIdEditRoute = BooksBooksBookIdEditImport.update({
+  id: '/$bookId/edit',
+  path: '/$bookId/edit',
+  getParentRoute: () => BooksBooksRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -165,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersImport
       parentRoute: typeof rootRoute
     }
+    '/books/books': {
+      id: '/books/books'
+      path: '/books/books'
+      fullPath: '/books/books'
+      preLoaderRoute: typeof BooksBooksImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/products': {
       id: '/dashboard/products'
       path: '/products'
@@ -214,6 +242,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrdersIndexImport
       parentRoute: typeof rootRoute
     }
+    '/books/books/new': {
+      id: '/books/books/new'
+      path: '/new'
+      fullPath: '/books/books/new'
+      preLoaderRoute: typeof BooksBooksNewImport
+      parentRoute: typeof BooksBooksImport
+    }
+    '/books/books/$bookId/edit': {
+      id: '/books/books/$bookId/edit'
+      path: '/$bookId/edit'
+      fullPath: '/books/books/$bookId/edit'
+      preLoaderRoute: typeof BooksBooksBookIdEditImport
+      parentRoute: typeof BooksBooksImport
+    }
   }
 }
 
@@ -235,6 +277,20 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
 )
 
+interface BooksBooksRouteChildren {
+  BooksBooksNewRoute: typeof BooksBooksNewRoute
+  BooksBooksBookIdEditRoute: typeof BooksBooksBookIdEditRoute
+}
+
+const BooksBooksRouteChildren: BooksBooksRouteChildren = {
+  BooksBooksNewRoute: BooksBooksNewRoute,
+  BooksBooksBookIdEditRoute: BooksBooksBookIdEditRoute,
+}
+
+const BooksBooksRouteWithChildren = BooksBooksRoute._addFileChildren(
+  BooksBooksRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
@@ -243,6 +299,7 @@ export interface FileRoutesByFullPath {
   '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/books/books': typeof BooksBooksRouteWithChildren
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/orders/returns': typeof OrdersReturnsRoute
@@ -250,6 +307,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/orders': typeof OrdersIndexRoute
+  '/books/books/new': typeof BooksBooksNewRoute
+  '/books/books/$bookId/edit': typeof BooksBooksBookIdEditRoute
 }
 
 export interface FileRoutesByTo {
@@ -259,6 +318,7 @@ export interface FileRoutesByTo {
   '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/books/books': typeof BooksBooksRouteWithChildren
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/orders/returns': typeof OrdersReturnsRoute
@@ -266,6 +326,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/orders': typeof OrdersIndexRoute
+  '/books/books/new': typeof BooksBooksNewRoute
+  '/books/books/$bookId/edit': typeof BooksBooksBookIdEditRoute
 }
 
 export interface FileRoutesById {
@@ -277,6 +339,7 @@ export interface FileRoutesById {
   '/admin/productsPage': typeof AdminProductsPageRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/books/books': typeof BooksBooksRouteWithChildren
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/orders/returns': typeof OrdersReturnsRoute
@@ -284,6 +347,8 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/orders/': typeof OrdersIndexRoute
+  '/books/books/new': typeof BooksBooksNewRoute
+  '/books/books/$bookId/edit': typeof BooksBooksBookIdEditRoute
 }
 
 export interface FileRouteTypes {
@@ -296,6 +361,7 @@ export interface FileRouteTypes {
     | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
+    | '/books/books'
     | '/dashboard/products'
     | '/dashboard/settings'
     | '/orders/returns'
@@ -303,6 +369,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard/'
     | '/orders'
+    | '/books/books/new'
+    | '/books/books/$bookId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -311,6 +379,7 @@ export interface FileRouteTypes {
     | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
+    | '/books/books'
     | '/dashboard/products'
     | '/dashboard/settings'
     | '/orders/returns'
@@ -318,6 +387,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/orders'
+    | '/books/books/new'
+    | '/books/books/$bookId/edit'
   id:
     | '__root__'
     | '/'
@@ -327,6 +398,7 @@ export interface FileRouteTypes {
     | '/admin/productsPage'
     | '/admin/roles'
     | '/admin/users'
+    | '/books/books'
     | '/dashboard/products'
     | '/dashboard/settings'
     | '/orders/returns'
@@ -334,6 +406,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/dashboard/'
     | '/orders/'
+    | '/books/books/new'
+    | '/books/books/$bookId/edit'
   fileRoutesById: FileRoutesById
 }
 
@@ -345,6 +419,7 @@ export interface RootRouteChildren {
   AdminProductsPageRoute: typeof AdminProductsPageRoute
   AdminRolesRoute: typeof AdminRolesRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  BooksBooksRoute: typeof BooksBooksRouteWithChildren
   OrdersReturnsRoute: typeof OrdersReturnsRoute
   OrdersShipmentsRoute: typeof OrdersShipmentsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -359,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminProductsPageRoute: AdminProductsPageRoute,
   AdminRolesRoute: AdminRolesRoute,
   AdminUsersRoute: AdminUsersRoute,
+  BooksBooksRoute: BooksBooksRouteWithChildren,
   OrdersReturnsRoute: OrdersReturnsRoute,
   OrdersShipmentsRoute: OrdersShipmentsRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -382,6 +458,7 @@ export const routeTree = rootRoute
         "/admin/productsPage",
         "/admin/roles",
         "/admin/users",
+        "/books/books",
         "/orders/returns",
         "/orders/shipments",
         "/admin/",
@@ -414,6 +491,13 @@ export const routeTree = rootRoute
     "/admin/users": {
       "filePath": "admin/users.tsx"
     },
+    "/books/books": {
+      "filePath": "books/books.tsx",
+      "children": [
+        "/books/books/new",
+        "/books/books/$bookId/edit"
+      ]
+    },
     "/dashboard/products": {
       "filePath": "dashboard/products.tsx",
       "parent": "/dashboard"
@@ -437,6 +521,14 @@ export const routeTree = rootRoute
     },
     "/orders/": {
       "filePath": "orders/index.tsx"
+    },
+    "/books/books/new": {
+      "filePath": "books/books.new.tsx",
+      "parent": "/books/books"
+    },
+    "/books/books/$bookId/edit": {
+      "filePath": "books/books.$bookId.edit.tsx",
+      "parent": "/books/books"
     }
   }
 }
